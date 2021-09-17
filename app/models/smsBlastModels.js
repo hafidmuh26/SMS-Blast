@@ -1,13 +1,13 @@
 module.exports = (sequelize, Sequelize) => {
   const smsBlast = sequelize.define("sms_center", {
     username: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
     },
     password: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
     },
     sender: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
     },
     msisdn: {
       type: Sequelize.STRING
@@ -15,11 +15,14 @@ module.exports = (sequelize, Sequelize) => {
     message: {
       type: Sequelize.STRING
     },
+    istatus: {
+      type: Sequelize.STRING
+    },
     campaign: {
       type: Sequelize.STRING
     },
-    istatus: {
-      type: Sequelize.STRING
+    is_OTP: {
+      type: Sequelize.INTEGER
     }
   },
   {freezeTableName: true,

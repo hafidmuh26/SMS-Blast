@@ -1,37 +1,30 @@
-const db = require("../models/index");
-const SmsBlast = db.smsBlasts;
+const { query } = require("express");
+const db = require("../config/configDB");
+const SmsBlast = db.sequelize;
 const Op = db.Sequelize.Op;
 
 
 //CREATE SMS BLAST
 exports.create = (req, res) => {
-  if (!req.body.username) {
-    res.status(400).send({
-      message: "Content can not be empty!"
-    });
-    return;
-  }
-
-  const smsBlast = {
-    username: req.body.username,
-    password: req.body.password,
-    sender: req.body.sender,
-    msisdn: req.body.msisdn,
-    message: req.body.message,
-    campaign: req.body.campaign,
-    istatus: req.body.istatus
-  };
-
-  SmsBlast.create(smsBlast)
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      res.status(500).send({
-        message: err.message || "Some error occurred while creating the Sms Blast."
-      });
-    });
-
+  
+  SmsBlast.query('exec ins_sms_center :username, :password, :sender, :msisdn, :message, :istatus, :campaign, :is_OTP',
+                  {replacements: {
+                    username: 'brilife',
+                    password: 'brilife2016',
+                    sender: 'BRILife',
+                    msisdn: req.body.msisdn,
+                    message: req.body.message,
+                    istatus: req.body.istatus,
+                    campaign: req.body.campaign,
+                    is_OTP: 0
+                  }
+                }).then(data => {
+                  res.status(200).send({status: 'Request is being processed', data});
+                }).catch(err => {
+                  res.status(500).send({
+                    message: err
+                  })
+                });
 };
 
 
